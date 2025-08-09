@@ -8,7 +8,7 @@ pipeline {
 
   environment {
     HOME = "${env.HOME}" // Ensures HOME is available
-    PATH = "${env.HOME}/bin:${env.PATH}" // Globally prepends ~/bin to PATH
+    PATH = "$HOME/bin:$PATH" // Globally prepends ~/bin to PATH
     TF_WORKING_DIR = "terraform"
   }
 
