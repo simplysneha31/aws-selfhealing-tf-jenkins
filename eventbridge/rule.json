@@ -1,0 +1,19 @@
+{
+  "Name": "TriggerLambdaOnAlarm",
+  "EventPattern": {
+    "source": ["aws.cloudwatch"],
+    "detail-type": ["CloudWatch Alarm State Change"],
+    "detail": {
+      "state": {
+        "value": ["ALARM"]
+      },
+      "alarmName": ["HighCPUAlarm"]
+    }
+  },
+  "Targets": [
+    {
+      "Arn": "arn:aws:lambda:us-east-1:123456789012:function:selfHealingLambda",
+      "Id": "TargetLambda"
+    }
+  ]
+}

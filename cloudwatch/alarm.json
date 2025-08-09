@@ -1,0 +1,17 @@
+{
+  "AlarmName": "HighCPUAlarm",
+  "MetricName": "CPUUtilization",
+  "Namespace": "AWS/EC2",
+  "Statistic": "Average",
+  "Period": 300,
+  "EvaluationPeriods": 1,
+  "Threshold": 80,
+  "ComparisonOperator": "GreaterThanThreshold",
+  "AlarmActions": ["arn:aws:events:us-east-1:123456789012:rule/TriggerLambdaOnAlarm"],
+  "Dimensions": [
+    {
+      "Name": "InstanceId",
+      "Value": "i-0368df660b407b956"
+    }
+  ]
+}
