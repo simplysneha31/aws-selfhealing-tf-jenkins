@@ -15,23 +15,30 @@ pipeline {
     stage('Install Tools') {
       steps {
         sh '''
-          echo "Checking AWS CLI..."
+          echo "Checking AWS CLI"
           if ! command -v aws &> /dev/null; then
-            echo "AWS CLI not found. Installing..."
+            echo "AWS CLI not found. Installing"
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip -q -o awscliv2.zip
-            ./aws/install --install-dir ~/my-aws-cli --bin-dir ~/bin
+            ./aws/install --install-dir ~/my-aws-cli --bin-dir ~/bin --update
           else
             echo "AWS CLI already installed: $(aws --version)"
           fi
 
-          echo "Checking Terraform..."
+          echo "Checking Terraform"
           if ! command -v terraform &> /dev/null; then
-            echo "Terraform not found. Installing..."
+            echo "Terraform not found. Installing"
             curl -fsSL https://releases.hashicorp.com/terraform/1.12.2/terraform_1.12.2_linux_amd64.zip -o terraform.zip
             unzip -o terraform.zip
+
+            # Protect against directory conflict
+            if [ -d "$HOME/bin/terraform" ]; then
+              echo "Found a directory named 'terraform' in $HOME/bin. Removing it..."
+              rm -rf "$HOME/bin/terraform"
+            fi
+
             mkdir -p $HOME/bin
-            mv terraform $HOME/bin/terraform
+            mv -f terraform $HOME/bin/terraform
           else
             echo "Terraform already installed: $(terraform version | head -n 1)"
           fi
